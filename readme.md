@@ -33,7 +33,7 @@ execute in sequential:
 歡迎修改或利用這些程式來下載、分析立法院公開資料。歡迎提出各種建議、或直接拿去修改使用。
 
 ## Related projects
-- 零時政府 g0v 有不少相關專案：https://dev.g0v.tw/Project-TWLY.html，大多已經超10年。
+- 零時政府 g0v 有不少相關專案：https://dev.g0v.tw/Project-TWLY.html ，大多已經超10年。
 - 或許能更方便存取各種立法院資訊的API： https://github.com/openfunltd/ly.govapi.tw
 
 # 立法院運作模式
