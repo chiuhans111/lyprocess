@@ -1,4 +1,6 @@
-download/*/*
-parsed/*/*
+# download/*/*
+# parsed/*/*
+
+download/doc/*
 
 __pycache__
