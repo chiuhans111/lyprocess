@@ -23,7 +23,7 @@ to uncover hidden truth within the vast trove of information.
             - cell with same `cell_id` is in the same table
             - cell that merges other cells will have `cell_width` > 1 or `cell_height` > 1
 
-## scripts
+## Scripts
 execute in sequential:
 - `script01_download_csv.py`: download all csv files
 - `script02_download_doc.py`: download all doc files listed in csv files
