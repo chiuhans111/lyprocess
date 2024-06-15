@@ -1,6 +1,6 @@
 # download/*/*
 # parsed/*/*
 
-download/doc/*
+download/doc/*.doc
 
 __pycache__
