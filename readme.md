@@ -6,28 +6,36 @@ to uncover hidden truth within the vast trove of information.
 
 這個專案的目標是希望能透過[立法院開放資料](https://data.ly.gov.tw)，從海量的資料中挖掘出被淹沒的客觀事實。
 
-## File structure
+## File structure and Documentation
 - `download/`: all downloaded data
     - `csv/`: csv files, typically directly downloaded fron [LY open data platform](https://data.ly.gov.tw)
     - `doc/`: doc files, typically downloaded from `docUrl` presented in the `.csv` files
-        - file prefix:
+        - prefix:
             - LCEWC: 議事錄
             - LCIDC: 院會、黨團協商紀錄
             - LCEWA: 議案提案
 - `parsed/`: parsed data
     - `doc_csv/`: convert all `download/doc` into csv format
-        - csv fiels:
-            - basic paragraph: `text`, `style`, `space_before`, `space_after`
-            - in a table: `col_id`, `row_id`
-            - cell info: `cell_width`, `cell_height`, `cell_id`
-            - cell with same `cell_id` is in the same table
+        - content: `text`
+        - formatting: `formatting` = for each character:
+            - 0: normal
+            - 1: bold
+            - 2: italic
+            - 4: underline
+            - example: bold+italic = 3
+        - other style: 
+            - `style` name of the stile and all base style separated by `/`
+            - spacing: `space_before`, `space_after`
+        - in a table: 
+            - position of the cell: `col_id`, `row_id`
             - cell that merges other cells will have `cell_width` > 1 or `cell_height` > 1
+            - cell with same `cell_id` is in the same table
 
 ## Scripts
 execute in sequential:
-- `script01_download_csv.py`: download all csv files
-- `script02_download_doc.py`: download all doc files listed in csv files
-- `script03_read_doc.py`: parse all doc files
+- `script01_download_csv.py`: download all csv files into `download/csv`
+- `script02_download_doc.py`: download all doc files listed in csv files into `download/doc`
+- `script03_read_doc.py`: parse all doc files into `parsed/doc_csv`
 
 ## How to participate
 歡迎修改或利用這些程式來下載、分析立法院公開資料。歡迎提出各種建議、或直接拿去修改使用。

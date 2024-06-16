@@ -6,6 +6,7 @@ from tqdm import tqdm
 word = win32com.client.Dispatch("Word.Application")
 word.visible = False
 
+
 def word_to_csv(filename_in, filename_out):
     # Open word file
     wb = word.Documents.Open(os.path.abspath(filename_in))
@@ -55,7 +56,21 @@ def word_to_csv(filename_in, filename_out):
             row_id = ''
             cell_id = ''
 
-            text = paragraph.Range.Text
+            text = []
+            formatting = []
+            for i in range(paragraph.Range.Start, paragraph.Range.End):
+                r = doc.Range(i, i+1)
+                if len(r.Text) == 1:
+                    text.append(r.Text)
+                    v = 0
+                    if r.Bold!=0:
+                        v+=1
+                    if r.Italic!=0:
+                        v+=2
+                    if r.Underline!=0:
+                        v+=4
+                    formatting.append(
+                        str(int(v)))
 
             # try if the paragraph is in the table
             try:
@@ -66,12 +81,12 @@ def word_to_csv(filename_in, filename_out):
             except:
                 # the above code will fail if it's not in the table
                 pass
-            
+
             # find the style and all base styles of the paragraph
             style = paragraph.style
             style_list = []
 
-            while len(str(style))>0:
+            while len(str(style)) > 0:
                 try:
                     style_list.append(str(style))
                     style = style.BaseStyle
@@ -81,13 +96,18 @@ def word_to_csv(filename_in, filename_out):
             space_before = paragraph.SpaceBefore
             space_after = paragraph.SpaceAfter
 
+            if len(formatting) != len(text):
+                print(formatting)
+                print(text)
+                print(len(formatting), len(text))
+
             writer.writerow(
-                ['\n'.join(text.splitlines()), '/'.join(style_list), space_before, space_after, col_id, row_id, cell_width, cell_height, cell_id])
+                [''.join(text), ''.join(formatting), '/'.join(style_list), space_before, space_after, col_id, row_id, cell_width, cell_height, cell_id])
     # Close the document (optional)
     wb.Close()
 
 
-# "test 1"
+"test 1"
 # word_to_csv('./download/doc/LCEWA01_110106_00070.doc',
 #             './parsed/doc_csv/LCEWA01_110106_00070.csv')
 
@@ -95,9 +115,18 @@ def word_to_csv(filename_in, filename_out):
 # word_to_csv('./download/doc/LCEWA01_110114_00277.doc',
 #             './parsed/doc_csv/LCEWA01_110114_00277.csv')
 
-folder='./download/doc'
-folder_out='./parsed/doc_csv'
+folder = './download/doc'
+folder_out = './parsed/doc_csv'
+
+# skip_to = "LCIDC01_1134701_00002.doc"
+skip_to = None
 for file in os.listdir(folder):
+    if skip_to is not None:
+        if file==skip_to:
+            skip_to = None
+        else:
+            continue
+    
     if file.endswith('.doc'):
         print(os.path.join(folder, file), os.path.join(
             folder_out, file.split('.')[0]+'.csv'))
